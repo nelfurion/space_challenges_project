@@ -20,7 +20,7 @@ class Command(BaseCommand):
         owned_assets = [asset for asset in asset_data if self._asset_is_owned(asset)]
         owned_assets_count = len(owned_assets)
         self._seed_assets(asset_data)
-        self._check_if_seeded(models.Asset, owned_assets_count)
+        self._check_if_seeded(models.Asset, owned_assets)
 
     def _get_device_data(self, headers):
         r = requests.get('https://api.allthingstalk.io/device/VkY0nvrdSl92SaVhRPcNAq6W', headers = headers)
@@ -46,6 +46,8 @@ class Command(BaseCommand):
                 db_asset = list(query_set)[0]
                 if not db_asset.dataPoints or db_asset.dataPoints == 'null':
                     db_asset.dataPoints = asset['dataPoints']
+                    print(asset['dataPoints'])
+                    print(db_asset.dataPoints)
                 else:
                     new_dataPoints = db_asset.dataPoints.extend(asset['dataPoints'])
                     db_asset.dataPoints = json.dumps(new_dataPoints)
@@ -66,9 +68,16 @@ class Command(BaseCommand):
 
         return sensor_data
 
-    def _check_if_seeded(self, model, owned_assets_count):
-        different_counts = self._get_seeded_models_count(model) != owned_assets_count
-        print("Seed successful...") if not different_counts else print("Seed failed...")
+    def _check_if_seeded(self, model, asset_data):
+        for asset in asset_data:
+            found = model.objects.all().filter(name=asset['name'], title=asset['title'])
+            print(asset['name'], ' ', asset['title'])
+            print(list(found))
+            if len(list(found)) <= 0:
+                print('Seed failed...')
+                return
+
+        print("Seed successful...")
 
     def _get_seeded_models_count(self, model):
         return model.objects.all().count()

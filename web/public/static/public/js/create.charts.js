@@ -28,21 +28,24 @@
 
     $.get('/public/charts', function(data) {
         var charts = data.charts;
-        for(var i = 0; i < charts.length; i++) {
-            var chartsContainer = $('#chartsContainer')
-            .append('<div id="chart-' + i + '" style="height:400px;" class="col-md-4 col-sm-4 col-lg-4"></div>');
-            console.log(charts[i]);
-            console.log(charts[i].dataPoints);
-            for(var j = 0; j < charts[i].dataPoints.length; j++) {
-                convertDataPoints(charts[i].dataPoints[j], 'x', j);
-            }
+        console.log('charts:');
+        console.log(charts);
 
-            Chart.display(
-                "chart-" + i,
-                charts[i].text,
-                charts[i].dataPoints,
-                charts[i].type
-            );
+        for(var i = 0; i < charts.length; i++) {
+            if (charts[i].dataPoints != "null") {
+                var chartsContainer = $('#chartsContainer')
+                .append('<div id="chart-' + i + '" style="height:400px;" class="col-md-4 col-sm-4 col-lg-4"></div>');
+                for(var j = 0; j < charts[i].dataPoints.length; j++) {
+                    convertDataPoints(charts[i].dataPoints[j], 'x', j);
+                }
+
+                Chart.display(
+                    "chart-" + i,
+                    charts[i].text,
+                    charts[i].dataPoints,
+                    charts[i].type
+                );
+            }
         }
     });
 })(jQuery, Chart);

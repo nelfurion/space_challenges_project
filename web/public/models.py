@@ -6,6 +6,7 @@ class Asset(models.Model):
     name = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     dataPoints = JSONField()
+
     def as_json(self):
         return dict(
             name = self.name,
@@ -16,6 +17,8 @@ class Chart(models.Model):
         Asset,
         on_delete=models.CASCADE,
     )
+
+    y_unit = models.CharField(max_length=10, null=True)
     text = models.CharField(max_length=100)
     type = models.CharField(max_length=100)
 
