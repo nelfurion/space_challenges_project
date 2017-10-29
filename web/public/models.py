@@ -2,18 +2,28 @@ from django.db import models
 from django.contrib.postgres.fields.jsonb import JSONField
 import uuid
 
+class Asset(models.Model):
+    name = models.CharField(max_length=100)
+    title = models.CharField(max_length=100)
+    dataPoints = JSONField()
+    def as_json(self):
+        return dict(
+            name = self.name,
+            dataPoints = self.dataPoints)
+
 class Chart(models.Model):
-    accountId = models.UUIDField(default=uuid.uuid4, editable=False)
+    asset = models.OneToOneField(
+        Asset,
+        on_delete=models.CASCADE,
+    )
     text = models.CharField(max_length=100)
     type = models.CharField(max_length=100)
-    dataPoints = JSONField()
-
 
     def as_json(self):
         return dict(
-            accountId=self.accountId,
-            text=self.text,
-            type=self.type,
-            dataPoints=self.dataPoints)
+            text = self.text,
+            type = self.type,
+            dataPoints = self.asset.dataPoints,
+            sensor = self.asset.as_json())
 
 # Create your models here.

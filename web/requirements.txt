@@ -4,4 +4,5 @@ gunicorn==19.1.0
 PasteDeploy==1.5.2
 psycopg2==2.7.1
 pytz==2017.2
+requests==2.14.2
 whitenoise==3.3.1
