@@ -1,0 +1,37 @@
+{
+  "sense": [
+    {
+      "asset": "SCS2_AirQuality",
+      "value": {
+        "byte": 0,
+        "bytelength": 2,
+        "byteorder": "little",
+        "type": "integer"
+      }
+    },
+    {
+      "asset": "SCS2_temperature",
+      "value": {
+        "byte": 2,
+        "bytelength": 4,
+        "type": "number"
+      }
+    },
+    {
+      "asset": "SCS2_humidity",
+      "value": {
+        "byte": 6,
+        "bytelength": 4,
+        "type": "number"
+      }
+    },
+    {
+      "asset": "SCS2_pressure",
+      "value": {
+        "byte": 10,
+        "bytelength": 4,
+        "type": "number"
+      }
+    }
+  ]
+}
