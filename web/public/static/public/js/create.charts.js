@@ -33,8 +33,15 @@
 
         for(var i = 0; i < charts.length; i++) {
             if (charts[i].dataPoints != "null") {
-                var chartsContainer = $('#chartsContainer')
-                .append('<div id="chart-' + i + '" style="height:400px;" class="col-md-4 col-sm-4 col-lg-4"></div>');
+                if (i % 3 == 1 || (i - 1) % 3 == 1) {
+                    console.log(i);
+                    var chartsContainer = $('#chartsContainer')
+                    .append('<div id="chart-' + i + '" style="height:300px; margin-bottom: 10px;" class="col-md-3 col-md-offset-1 col-sm-offset-1 col-lg-offset-1 col-sm-3 col-lg-3"></div>');
+                } else {
+                    var chartsContainer = $('#chartsContainer')
+                    .append('<div id="chart-' + i + '" style="height:300px;" class="col-md-3 col-sm-3 col-lg-3"></div>');
+                }
+
                 for(var j = 0; j < charts[i].dataPoints.length; j++) {
                     convertDataPoints(charts[i].dataPoints[j], 'x', j);
                 }

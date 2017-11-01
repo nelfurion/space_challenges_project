@@ -14,6 +14,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         device_data = self._get_device_data(headers)
         asset_data = self._extract_assets_data(device_data)
+
+        
+
         if not asset_data:
             return
 
@@ -46,11 +49,8 @@ class Command(BaseCommand):
                 db_asset = list(query_set)[0]
                 if not db_asset.dataPoints or db_asset.dataPoints == 'null':
                     db_asset.dataPoints = asset['dataPoints']
-                    print(asset['dataPoints'])
-                    print(db_asset.dataPoints)
                 else:
-                    new_dataPoints = db_asset.dataPoints.extend(asset['dataPoints'])
-                    db_asset.dataPoints = json.dumps(new_dataPoints)
+                    db_asset.dataPoints.extend(asset['dataPoints'])
 
                 db_asset.save()
 
